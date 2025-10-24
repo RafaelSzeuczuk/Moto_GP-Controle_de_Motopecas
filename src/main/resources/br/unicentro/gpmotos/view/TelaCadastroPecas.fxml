@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unicentro.gpmotos.controller.TelaCadastroPecaController">
+
+    <top>
+        <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #f0f0f0; padding: 10;" />
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" spacing="15">
+            <padding>
+                <Insets bottom="20" left="20" right="20" top="20" />
+            </padding>
+            <Label text="Cadastro de Peças">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" prefWidth="120" />
+                    <ColumnConstraints hgrow="ALWAYS" prefWidth="300" />
+                </columnConstraints>
+
+                <Label text="Nome:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="tfNomePeca" promptText="Nome da peça" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label text="Marca:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="tfMarcaPeca" promptText="Marca da peça" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Label text="Modelo:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="tfModeloPeca" promptText="Modelo da peça" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                <Label text="Categoria:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <TextField fx:id="tfCategoriaPeca" promptText="Categoria da peça" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                <Label text="Fornecedor:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <TextField fx:id="tfFornecedorPeca" promptText="Nome do fornecedor" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                <Label text="Preço:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <TextField fx:id="tfPrecoPeca" promptText="Preço da peça" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+            </GridPane>
+
+            <HBox alignment="CENTER" spacing="10">
+                <Button fx:id="btnSalvarPeca" onAction="#handleSalvarPeca" text="Salvar" />
+                <Button fx:id="btnLimparPeca" onAction="#handleLimparPeca" text="Limpar" />
+                <Button fx:id="btnExcluirPeca" onAction="#handleExcluirPeca" text="Excluir" />
+            </HBox>
+
+            <TableView fx:id="tabelaPecasCadastro" prefHeight="200" prefWidth="600">
+                <columns>
+                    <TableColumn fx:id="colPecaId" prefWidth="50" text="ID" />
+                    <TableColumn fx:id="colPecaNome" prefWidth="150" text="Nome" />
+                    <TableColumn fx:id="colPecaMarca" prefWidth="100" text="Marca" />
+                    <TableColumn fx:id="colPecaModelo" prefWidth="109.09130859375" text="Modelo" />
+                    <TableColumn fx:id="colPecaCategoria" prefWidth="130.90960693359375" text="Categoria" />
+                    <TableColumn fx:id="colPecaFornecedor" prefWidth="107.27313232421875" text="Fornecedor" />
+                    <TableColumn fx:id="colPecaPreco" prefWidth="113.63671875" text="Preço" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-background-color: #f0f0f0; padding: 10;">
+            <Button onAction="#handleVoltarParaVendas" text="Voltar para Vendas" />
+        </HBox>
+    </bottom>
+</BorderPane>

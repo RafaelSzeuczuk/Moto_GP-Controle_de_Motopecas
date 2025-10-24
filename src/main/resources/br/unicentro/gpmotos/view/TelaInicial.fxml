@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="500.0" prefWidth="700.0" spacing="20.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unicentro.gpmotos.controller.TelaInicialController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <children>
+      <ImageView fitHeight="199.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/gp_motos.jpeg" />
+         </image>
+      </ImageView>
+        <Label fx:id="lblLog1" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="O seu software de controle de peças" textAlignment="RIGHT" textOverrun="WORD_ELLIPSIS">
+            <font>
+                <Font name="Montserrat SemiBold" size="25.0" />
+            </font>
+        </Label>
+        <GridPane prefHeight="124.0" prefWidth="549.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.66727694340045" minWidth="10.0" prefWidth="97.50065695253323" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="470.0032061687826" minWidth="10.0" prefWidth="442.50302306331383" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <VBox.margin>
+                <Insets left="10.0" right="10.0" />
+            </VBox.margin>
+            <children>
+                <Label fx:id="lblSenha" text="Senha" GridPane.halignment="CENTER">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                    <padding>
+                        <Insets right="10.0" />
+                    </padding>
+                </Label>
+                <Button fx:id="btnAcessar" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnAcessarOnAction" text="Acessar" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <PasswordField fx:id="pfdSenha" GridPane.columnIndex="1">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </PasswordField>
+            </children>
+        </GridPane>
+        <Label fx:id="lblLog2" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="584.0" text="Desenvolvido por Rafael Szeuczuk André" textAlignment="RIGHT" textOverrun="WORD_ELLIPSIS">
+            <font>
+                <Font name="Montserrat SemiBold" size="20.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblLog3" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="33.0" prefWidth="400.0" text="&amp; Henrique Romao Saito - Trabalho POO-II" textAlignment="RIGHT" textOverrun="WORD_ELLIPSIS">
+            <font>
+                <Font name="Montserrat SemiBold" size="20.0" />
+            </font>
+        </Label>
+    </children>
+</VBox>
