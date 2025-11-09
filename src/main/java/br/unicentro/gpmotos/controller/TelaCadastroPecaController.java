@@ -42,7 +42,7 @@ public class TelaCadastroPecaController implements Initializable {
     @FXML private TableColumn<Peca, String> colPecaFornecedor;
     @FXML private TableColumn<Peca, Double> colPecaPreco;
 
-    private final PecaDAO pecaDAO = new PecaDAO();
+    private PecaDAO pecaDAO = new PecaDAO();
     private final ObservableList<Peca> listaPecas = FXCollections.observableArrayList();
     private Peca pecaSelecionada;
 
@@ -93,7 +93,7 @@ public class TelaCadastroPecaController implements Initializable {
     }
 
     @FXML
-    private void handleSalvarPeca(ActionEvent event) {
+    public void handleSalvarPeca(ActionEvent event) {
         String nome = tfNomePeca.getText();
         String marca = tfMarcaPeca.getText();
         String modelo = tfModeloPeca.getText();
@@ -208,4 +208,19 @@ public class TelaCadastroPecaController implements Initializable {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
+
+    public void initForTest(TextField tfNomePeca, TextField tfMarcaPeca, TextField tfModeloPeca,
+                            TextField tfCategoriaPeca, TextField tfFornecedorPeca, TextField tfPrecoPeca,
+                            Button btnExcluirPeca, TableView<Peca> tabelaPecasCadastro, PecaDAO pecaDAO) {
+        this.tfNomePeca = tfNomePeca;
+        this.tfMarcaPeca = tfMarcaPeca;
+        this.tfModeloPeca = tfModeloPeca;
+        this.tfCategoriaPeca = tfCategoriaPeca;
+        this.tfFornecedorPeca = tfFornecedorPeca;
+        this.tfPrecoPeca = tfPrecoPeca;
+        this.btnExcluirPeca = btnExcluirPeca;
+        this.tabelaPecasCadastro = tabelaPecasCadastro;
+        this.pecaDAO = pecaDAO;
+    }
+
 }

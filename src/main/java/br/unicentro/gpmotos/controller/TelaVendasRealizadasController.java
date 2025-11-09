@@ -124,7 +124,7 @@ public class TelaVendasRealizadasController implements Initializable {
                 List<ItemVenda> itens = itemVendaDAO.findByVendaId(venda.getVendaId());
                 for (ItemVenda item : itens) {
                     Row itemRow = sheet.createRow(rowIndex++);
-                    itemRow.createCell(1).setCellValue("Peça ID " + item.getPecaId()); // ou nome da peça se disponível
+                    itemRow.createCell(1).setCellValue("Peça ID " + item.getPecaId());
                     itemRow.createCell(2).setCellValue(item.getQuantidade());
                     itemRow.createCell(3).setCellValue(item.getPrecoUnitario().doubleValue());
                     itemRow.createCell(4).setCellValue(item.getSubtotal().doubleValue());
@@ -134,7 +134,6 @@ public class TelaVendasRealizadasController implements Initializable {
                 e.printStackTrace();
             }
 
-            // Linha em branco entre vendas
             rowIndex++;
         }
 

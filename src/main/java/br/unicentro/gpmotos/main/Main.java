@@ -11,12 +11,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // Cria um objeto responsável por carregar e analisar sintaticamente o arquivo FXML da tela inicial
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/br/unicentro/gpmotos/view/TelaInicial.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 500);
         stage.setTitle("MotoJar - Controle de Peças");
 
-        // Adiciona o ícone do aplicativo
         try {
             Image icon = new Image(getClass().getResourceAsStream("/br/unicentro/gpmotos/image/gp_motos.jpeg"));
             stage.getIcons().add(icon);
@@ -25,7 +23,6 @@ public class Main extends Application {
         }
 
         stage.setScene(scene);
-        // Define que o stage não pode ser redimensionado pelo usuário
         stage.setResizable(false);
         stage.show();
     }
@@ -34,4 +31,3 @@ public class Main extends Application {
         launch(args);
     }
 }
-

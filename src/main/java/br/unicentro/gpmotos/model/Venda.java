@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Venda {
+
     private final IntegerProperty vendaId;
     private final IntegerProperty clienteId;
     private final ObjectProperty<LocalDateTime> dataVenda;
@@ -20,6 +21,7 @@ public class Venda {
         this.dataVenda = new SimpleObjectProperty<>(dataVenda);
         this.valorTotal = new SimpleObjectProperty<>(valorTotal);
     }
+
 
     // Getters e Setters
     public int getVendaId() {

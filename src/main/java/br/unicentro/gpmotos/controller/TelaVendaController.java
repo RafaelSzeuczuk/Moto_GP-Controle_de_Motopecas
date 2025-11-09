@@ -429,4 +429,34 @@ public class TelaVendaController implements Initializable {
         public ObjectProperty<BigDecimal> subtotalProperty() { return subtotal; }
         public void setSubtotal(BigDecimal subtotal) { this.subtotal.set(subtotal); }
     }
+
+    public void setTfBusca(TextField tfBusca) {
+        this.tfBusca = tfBusca;
+    }
+    public void setCbMarca(ComboBox<String> cbMarca) {
+        this.cbMarca = cbMarca;
+    }
+    public void setCbModelo(ComboBox<String> cbModelo) {
+        this.cbModelo = cbModelo;
+    }
+    public void setCbCategoria(ComboBox<String> cbCategoria) {
+        this.cbCategoria = cbCategoria;
+    }
+    public void setPecaDAO(PecaDAO pecaDAO) {
+        this.pecaDAO = pecaDAO;
+    }
+    public void buscarPecasPublic() {
+        buscarPecas();
+    }
+    public void initForTest(TextField tfBusca, ComboBox<String> cbMarca,
+                            ComboBox<String> cbModelo, ComboBox<String> cbCategoria,
+                            PecaDAO pecaDAO) {
+        this.tfBusca = tfBusca;
+        this.cbMarca = cbMarca;
+        this.cbModelo = cbModelo;
+        this.cbCategoria = cbCategoria;
+        this.pecaDAO = pecaDAO;
+    }
+
+
 }
