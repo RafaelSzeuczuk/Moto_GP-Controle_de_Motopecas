@@ -5,14 +5,15 @@ import javafx.beans.property.*;
 import java.math.BigDecimal;
 
 public class Peca {
-    private final IntegerProperty pecaId;
-    private final StringProperty nome;
-    private final StringProperty marca;
-    private final StringProperty modelo;
-    private final StringProperty categoria;
-    private final StringProperty fornecedor;
-    private final ObjectProperty<BigDecimal> preco;
+    private IntegerProperty pecaId;
+    private StringProperty nome;
+    private StringProperty marca;
+    private StringProperty modelo;
+    private StringProperty categoria;
+    private StringProperty fornecedor;
+    private ObjectProperty<BigDecimal> preco;
 
+/**
     public Peca(int pecaId, String nome, String marca, String modelo, String categoria, String fornecedor, BigDecimal preco) {
         this.pecaId = new SimpleIntegerProperty(pecaId);
         this.nome = new SimpleStringProperty(nome);
@@ -22,7 +23,23 @@ public class Peca {
         this.fornecedor = new SimpleStringProperty(fornecedor);
         this.preco = new SimpleObjectProperty<>(preco);
     }
+*/
+//Motivo da refatoracao, o metodo esta muito longo para consertar isso se e feito um construtor com uma versao mais curta:
+    public Peca(int pecaId, String nome, String marca, String modelo,String categoria, String fornecedor, BigDecimal preco) {
+        inicia_Peca(pecaId, nome, marca, modelo, categoria, fornecedor, preco);
+    }
 
+
+
+    public void inicia_Peca(int pecaId, String nome, String marca, String modelo, String categoria, String fornecedor, BigDecimal preco) {
+        this.pecaId = new SimpleIntegerProperty(pecaId);
+        this.nome = new SimpleStringProperty(nome);
+        this.marca = new SimpleStringProperty(marca);
+        this.modelo = new SimpleStringProperty(modelo);
+        this.categoria = new SimpleStringProperty(categoria);
+        this.fornecedor = new SimpleStringProperty(fornecedor);
+        this.preco = new SimpleObjectProperty<>(preco);
+    }
     // Getters e Setters para todas as propriedades
     public int getPecaId() {
         return pecaId.get();

@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
 public class TelaVendaController implements Initializable {
 
     @FXML
@@ -126,17 +127,27 @@ public class TelaVendaController implements Initializable {
         }
     }
 
-
+    // REFATORAÇÃO 5: Extract Variable - Para simplificar a lógica de filtros em populateFilters
     private void populateFilters() {
         try {
             List<Peca> allPecas = pecaDAO.findAll();
 
-            cbMarca.setItems(FXCollections.observableArrayList(
-                    allPecas.stream().map(Peca::getMarca).distinct().sorted().collect(Collectors.toList())));
-            cbModelo.setItems(FXCollections.observableArrayList(
-                    allPecas.stream().map(Peca::getModelo).distinct().sorted().collect(Collectors.toList())));
-            cbCategoria.setItems(FXCollections.observableArrayList(
-                    allPecas.stream().map(Peca::getCategoria).distinct().sorted().collect(Collectors.toList())));
+            // ANTES: Código complexo e repetitivo
+            // cbMarca.setItems(FXCollections.observableArrayList(
+            //     allPecas.stream().map(Peca::getMarca).distinct().sorted().collect(Collectors.toList())));
+            // cbModelo.setItems(FXCollections.observableArrayList(
+            //     allPecas.stream().map(Peca::getModelo).distinct().sorted().collect(Collectors.toList())));
+            // cbCategoria.setItems(FXCollections.observableArrayList(
+            //     allPecas.stream().map(Peca::getCategoria).distinct().sorted().collect(Collectors.toList())));
+
+            // DEPOIS: Extraindo variáveis para melhor legibilidade
+            List<String> marcasDistintas = allPecas.stream().map(Peca::getMarca).distinct().sorted().collect(Collectors.toList());
+            List<String> modelosDistintos = allPecas.stream().map(Peca::getModelo).distinct().sorted().collect(Collectors.toList());
+            List<String> categoriasDistintas = allPecas.stream().map(Peca::getCategoria).distinct().sorted().collect(Collectors.toList());
+
+            cbMarca.setItems(FXCollections.observableArrayList(marcasDistintas));
+            cbModelo.setItems(FXCollections.observableArrayList(modelosDistintos));
+            cbCategoria.setItems(FXCollections.observableArrayList(categoriasDistintas));
 
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Erro", "Erro ao carregar filtros: " + e.getMessage());
@@ -144,29 +155,54 @@ public class TelaVendaController implements Initializable {
         }
     }
 
+    // REFATORAÇÃO 6: Inline Temp - Para a variável searchTerm em buscarPecas
     @FXML
     private void buscarPecas() {
-        String searchTerm = tfBusca.getText();
-        String marca = cbMarca.getValue();
-        String modelo = cbModelo.getValue();
-        String categoria = cbCategoria.getValue();
+        // ANTES: Variável temporária desnecessária
+        // String searchTerm = tfBusca.getText();
+        // String marca = cbMarca.getValue();
+        // String modelo = cbModelo.getValue();
+        // String categoria = cbCategoria.getValue();
+        //
+        // try {
+        //     listaPecas.setAll(pecaDAO.search(searchTerm, marca, modelo, categoria));
+        // } catch (SQLException e) {
+        //     showAlert(Alert.AlertType.ERROR, "Erro", "Erro ao buscar peças: " + e.getMessage());
+        //     e.printStackTrace();
+        // }
 
+        // DEPOIS: Variável inline para simplificar
         try {
-            listaPecas.setAll(pecaDAO.search(searchTerm, marca, modelo, categoria));
+            listaPecas.setAll(pecaDAO.search(
+                    tfBusca.getText(),  // searchTerm inline
+                    cbMarca.getValue(),
+                    cbModelo.getValue(),
+                    cbCategoria.getValue()
+            ));
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Erro", "Erro ao buscar peças: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+    // REFATORAÇÃO 7: Introduce Explaining Variable - Para o cálculo do subtotal em adicionarAoCarrinho
     private void adicionarAoCarrinho(Peca peca) {
         carrinho.stream()
                 .filter(item -> item.getPecaId() == peca.getPecaId())
                 .findFirst()
                 .ifPresentOrElse(
                         item -> {
-                            item.setQuantidade(item.getQuantidade() + 1);
-                            item.setSubtotal(item.getPrecoUnitario().multiply(BigDecimal.valueOf(item.getQuantidade())));
+                            // ANTES: Cálculo direto sem explicação
+                            // item.setQuantidade(item.getQuantidade() + 1);
+                            // item.setSubtotal(item.getPrecoUnitario().multiply(BigDecimal.valueOf(item.getQuantidade())));
+
+                            // DEPOIS: Variáveis explicativas para melhor compreensão
+                            int novaQuantidade = item.getQuantidade() + 1;
+                            BigDecimal precoUnitario = item.getPrecoUnitario();
+                            BigDecimal novoSubtotal = precoUnitario.multiply(BigDecimal.valueOf(novaQuantidade));
+
+                            item.setQuantidade(novaQuantidade);
+                            item.setSubtotal(novoSubtotal);
                             tabelaCarrinho.refresh();
                         },
                         () -> {
@@ -208,15 +244,12 @@ public class TelaVendaController implements Initializable {
         });
     }
 
-
     private void updateSubtotal() {
         BigDecimal total = carrinho.stream()
                 .map(ItemVendaDisplay::getSubtotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         lblSubtotal.setText(String.format("R$ %.2f", total));
     }
-
-
 
     @FXML
     private void btnConcluirVenda() {
@@ -232,6 +265,13 @@ public class TelaVendaController implements Initializable {
         }
 
         try {
+            // REFATORAÇÃO 8: Extract Variable - Para cálculo do valor total da venda
+            // ANTES: Cálculo complexo inline
+            // BigDecimal valorTotalVenda = carrinho.stream()
+            //         .map(ItemVendaDisplay::getSubtotal)
+            //         .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            // DEPOIS: Variável extraída para melhor legibilidade
             BigDecimal valorTotalVenda = carrinho.stream()
                     .map(ItemVendaDisplay::getSubtotal)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -259,12 +299,12 @@ public class TelaVendaController implements Initializable {
             carrinho.clear();
             updateSubtotal();
         } catch (SQLException e) {
-        showAlert(Alert.AlertType.ERROR, "Erro", "Erro ao concluir venda: " + e.getMessage());
-        e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erro", "Erro ao concluir venda: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-}
 
-@FXML
+    @FXML
     private void btnVendasOnAction(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/gpmotos/view/TelaVendasRealizadas.fxml"));
@@ -336,7 +376,6 @@ public class TelaVendaController implements Initializable {
         }
     }
 
-
     @FXML
     private void btnSairOnAction(ActionEvent event) {
         try {
@@ -346,7 +385,7 @@ public class TelaVendaController implements Initializable {
             Stage stage = new Stage();
             stage.setTitle("Cadastro de Peças");
 
-            Scene scene = new Scene(root, 700, 400);
+            Scene scene = new Scene(root, 700, 500);
             stage.setScene(scene);
 
             stage.setResizable(false);
@@ -362,7 +401,6 @@ public class TelaVendaController implements Initializable {
         }
     }
 
-
     @FXML
     private void btnLimparFiltrosOnAction(ActionEvent event) {
         cbMarca.getSelectionModel().clearSelection();
@@ -371,8 +409,6 @@ public class TelaVendaController implements Initializable {
         cbClientes.getSelectionModel().clearSelection();
         tfBusca.clear();
     }
-
-
 
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
@@ -457,6 +493,4 @@ public class TelaVendaController implements Initializable {
         this.cbCategoria = cbCategoria;
         this.pecaDAO = pecaDAO;
     }
-
-
 }

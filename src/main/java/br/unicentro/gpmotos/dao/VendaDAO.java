@@ -6,12 +6,35 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static br.unicentro.gpmotos.dao.Conexao.PASSWORD;
+import static br.unicentro.gpmotos.dao.Conexao.URL;
+import static br.unicentro.gpmotos.dao.Conexao.USER;
+
 public class VendaDAO implements GenericDAO<Venda, Integer> {
 
     @Override
+    /**
     public void insert(Venda venda) throws SQLException {
         String sql = "INSERT INTO Vendas (clienteId, dataVenda, valorTotal) VALUES (?, ?, ?)";
         try (Connection conn = Conexao.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, venda.getClienteId());
+            stmt.setTimestamp(2, Timestamp.valueOf(venda.getDataVenda()));
+            stmt.setBigDecimal(3, venda.getValorTotal());
+            stmt.executeUpdate();
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    venda.setVendaId(rs.getInt(1));
+                }
+            }
+        }
+    }
+     Motivo da refatoracao Conexao.getConexao(), pode ser eliminado
+*/
+    public void insert(Venda venda) throws SQLException {
+        String sql = "INSERT INTO Vendas (clienteId, dataVenda, valorTotal) VALUES (?, ?, ?)";
+        try ( Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, venda.getClienteId());
             stmt.setTimestamp(2, Timestamp.valueOf(venda.getDataVenda()));

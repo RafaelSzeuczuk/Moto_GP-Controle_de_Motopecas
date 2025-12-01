@@ -6,6 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static br.unicentro.gpmotos.dao.Conexao.PASSWORD;
+import static br.unicentro.gpmotos.dao.Conexao.URL;
+import static br.unicentro.gpmotos.dao.Conexao.USER;
+
 public class PecaDAO implements GenericDAO<Peca, Integer> {
 
     @Override
@@ -56,9 +60,34 @@ public class PecaDAO implements GenericDAO<Peca, Integer> {
     }
 
     @Override
+    /**
     public Peca findById(Integer id) throws SQLException {
         String sql = "SELECT * FROM Pecas WHERE pecaId = ?";
         try (Connection conn = Conexao.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Peca(
+                            rs.getInt("pecaId"),
+                            rs.getString("nome"),
+                            rs.getString("marca"),
+                            rs.getString("modelo"),
+                            rs.getString("categoria"),
+                            rs.getString("fornecedor"),
+                            rs.getBigDecimal("preco")
+                    );
+                }
+            }
+        }
+        return null;
+    }
+     Motivo da extracao: Sera modificado getConexao e sera substituido pelo seu conteudo:
+     Depois:
+     */
+    public Peca findById(Integer id) throws SQLException {
+        String sql = "SELECT * FROM Pecas WHERE pecaId = ?";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {

@@ -9,6 +9,7 @@ import java.util.List;
 public class ClienteDAO implements GenericDAO<Cliente, Integer> {
 
     @Override
+    /**
     public void insert(Cliente cliente) throws SQLException {
         String sql = "INSERT INTO Clientes (nome) VALUES (?)";
         try (Connection conn = Conexao.getConexao();
@@ -23,6 +24,31 @@ public class ClienteDAO implements GenericDAO<Cliente, Integer> {
             }
         }
     }
+     Motivo: Extrair Cliente cliente
+     */
+    public void insert(Cliente cliente) throws SQLException {
+        String sql = "INSERT INTO Clientes (nome) VALUES (?)";
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            // Método extraído para preencher os parâmetros
+            preencherParametrosCliente(stmt, cliente);
+
+            stmt.executeUpdate();
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    cliente.setClienteId(rs.getInt(1));
+                }
+            }
+        }
+    }
+
+    // Método extraído para melhorar legibilidade e reaproveitamento
+    private void preencherParametrosCliente(PreparedStatement stmt, Cliente cliente) throws SQLException {
+        stmt.setString(1, cliente.getNome());
+    }
+
 
     @Override
     public void update(Cliente cliente) throws SQLException {
